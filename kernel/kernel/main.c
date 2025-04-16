@@ -1,6 +1,7 @@
-#include <stdint.h>
-
+#include <kernel/tty.h>
+#include <cpuid.h>
 void kmain() {
-    uint16_t* vga_buf = (uint16_t*) 0xB8000;
-    *vga_buf = 0x4141;
+    tty_init();
+    tty_puts("CPU Vendor: ");
+    cpuid_get_vendor();
 }
