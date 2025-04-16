@@ -27,7 +27,7 @@ kernel.elf: $(OBJS) $(ARCHDIR)/linker.ld
 	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(LINK_LIST) $(LDFLAGS)
 
 .asm.o:
-	$(AS) $(ASFLAGS) $< -o $@
+	$(AS) $(ASFLAGS) $< -o $@ -I $(KERNEL_ARCH_INCLUDE)
 
 .c.o:
 	$(CC) -c $< -o $@ $(CFLAGS)
