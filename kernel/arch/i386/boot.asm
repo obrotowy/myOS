@@ -1,19 +1,22 @@
 MBMAGIC         equ 0xE85250D6
 ARCH            equ 0
-HEADER_LENGTH   equ 16
+HEADER_LENGTH   equ 20
 CHECKSUM        equ -(MBMAGIC + ARCH + HEADER_LENGTH)
+MULTIBOOT_TAG_TYPE_END equ 0
 
 section .multiboot
-align 4
+align 8
 dd MBMAGIC
 dd ARCH
 dd HEADER_LENGTH
 dd CHECKSUM 
+dd MULTIBOOT_TAG_TYPE_END
 
 section .text
 global _start
 _start:
-    mov word [0xB8000], 0x4141
     cli
+    extern kmain
+    call kmain
 .hang:  hlt
     jmp .hang
