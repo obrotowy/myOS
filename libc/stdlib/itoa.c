@@ -22,7 +22,8 @@ void _reverse(void* arr, size_t size) {
 
 char* itoa(int value, char* str, const int base) {
     if (value == 0) {
-        str = "0";
+        str[0] = '0';
+        str[1] = '\0';
     }
     else {
         int digit = 0;
