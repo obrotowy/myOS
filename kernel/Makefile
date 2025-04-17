@@ -37,7 +37,7 @@ kernel.elf: $(OBJS) $(ARCHDIR)/linker.ld
 	$(CC) -c $< -o $@ $(INCLUDE) $(CFLAGS)
 
 clean:
-	rm $(OBJS)
+	rm $(OBJS) kernel.elf
 
 install: kernel.elf install-headers
 	mkdir -p $(DESTDIR)/boot
