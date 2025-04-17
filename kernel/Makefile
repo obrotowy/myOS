@@ -5,9 +5,12 @@ CFLAGS?=-O2 -g -pipe
 ASFLAGS?=
 LDFLAGS?=
 
-CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra
+CC?=$(HOST)-gcc
+AS?=nasm
+
+CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra --sysroot=$(DESTDIR) -isystem=/include
 ASFLAGS:=$(ASFLAGS)
-LDFLAGS:=$(LDFLAGS) -nostdlib -lgcc
+LDFLAGS:=$(LDFLAGS) -nostdlib -lgcc -lk --sysroot=$(DESTDIR)
 
 ARCHDIR=arch/$(ARCH)
 INCLUDE=-Iinclude
@@ -35,3 +38,11 @@ kernel.elf: $(OBJS) $(ARCHDIR)/linker.ld
 
 clean:
 	rm $(OBJS)
+
+install: kernel.elf install-headers
+	mkdir -p $(DESTDIR)/boot
+	cp kernel.elf $(DESTDIR)/boot/kernel.elf
+
+install-headers:
+	mkdir -p $(DESTDIR)/include
+	cp -r include/* $(DESTDIR)/include

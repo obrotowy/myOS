@@ -1,4 +1,4 @@
-%include 'multiboot.inc'
+%include 'boot/multiboot.inc'
 
 HEADER_LENGTH equ header_end - header_start
 

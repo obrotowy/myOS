@@ -1,5 +1,12 @@
-cd kernel/
-make
+export DESTDIR=$(pwd)/rootfs
+
+cd libc
+make install-headers
+cd ../kernel
+make install-headers
+cd ../libc
+make install
+cd ../kernel
+make install
 cd ..
-mv kernel/kernel.elf rootfs/boot/
-grub2-mkrescue rootfs -o disk.img
+grub2-mkrescue -o disk.img rootfs
