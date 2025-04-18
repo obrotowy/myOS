@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <limits.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 int printf(const char* restrict format, ...) {
     int written = 0;
@@ -36,7 +37,7 @@ int printf(const char* restrict format, ...) {
                 }
                 case 'X': {
                     char digits[9];
-                    itoa(va_arg(args, int), digits, 16);
+                    uitoa(va_arg(args, uint32_t), digits, 16);
                     written += printf("0x%s", digits);
                     break;
                 }
