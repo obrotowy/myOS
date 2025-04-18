@@ -1,7 +1,8 @@
 ; bool check_cpuid()
 global check_cpuid_availability
 global cpuid_get_vendor
-
+global get_ebx
+global get_cr0
 extern tty_puts
 
 check_cpuid_availability:
@@ -20,16 +21,25 @@ check_cpuid_availability:
 cpuid_get_vendor:
     push ebp
     mov ebp, esp
-    sub esp, 13
+    push edi
+    push ebx
     xor eax, eax
     cpuid
-    mov [esp], ebx
-    mov [esp+4], edx
-    mov [esp+8], ecx
-    mov byte [esp+12], 0xa
-    push esp
-    call tty_puts
-    add esp, 4
+    mov edi, [ebp+8]
+    mov [edi], ebx
+    mov [edi+4], edx
+    mov [edi+8], ecx
+    mov byte [edi+12], 0
+    pop ebx
+    pop edi
     mov esp, ebp
     pop ebp
+    ret
+
+get_cr0:
+    mov eax, cr0
+    ret
+
+get_ebx:
+    mov eax, ebx
     ret

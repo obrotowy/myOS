@@ -1,6 +1,8 @@
 #pragma once
 #include <stdbool.h>
+#include <stdint.h>
 
 extern bool check_cpuid_availability();
-extern const char* cpuid_get_vendor();
-extern bool check_paging();
+extern void cpuid_get_vendor(const char* buf);
+extern uint32_t get_cr0();
+extern uint32_t get_ebx();
