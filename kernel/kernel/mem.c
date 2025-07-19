@@ -1,4 +1,4 @@
-#include <kernel/multiboot.h>
+#include <stdint.h>
 #include <kernel/tty.h>
 #include <stdio.h>
 

@@ -1,6 +1,5 @@
 #include <kernel/tty.h>
 #include <cpuid.h>
-#include <kernel/multiboot.h>
 #include <stdio.h>
 
 void kmain() {
