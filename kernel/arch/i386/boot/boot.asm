@@ -12,16 +12,7 @@ header_start:
     dd MULTIBOOT_TAG_TYPE_END
 header_end:
 
-section .bss
-stack_bottom:
-    resb 4096
-stack_top:
 
-align 4096
-page_directory:
-    resb 4096
-page_table:
-    resb 4096
 
 section .text
 global _start
@@ -59,9 +50,53 @@ _start:
     mov eax, cr0
     or eax, 0x80000001
     mov cr0, eax
+    ; setup GDT
+    setup_gdt:
+    lgdt [GDT_addr]
+    jmp dword 0x08:.reload_segments
+    .reload_segments:
+        mov ax, 0x10
+        mov ds, ax
+        mov es, ax
+        mov fs, ax
+        mov gs, ax
+        mov ss, ax
+
     ; call kmain()
     extern kmain
     call kmain
     cli
 .hang:  hlt
     jmp .hang
+
+
+stack_bottom:
+    resb 4096
+stack_top:
+
+align 4096
+page_directory:
+    resb 4096
+page_table:
+    resb 4096
+
+GDT_addr:
+dw (GDT_end - GDT) - 1
+dd GDT
+
+; GLOBAL DESCRIPTOR TABLE 32-BIT
+GDT:
+
+    ; Null segment
+    dq 0
+
+    ; Code segment
+    dd 0xffff  ; segment limit
+    dd (10 << 8) | (1 << 12) | (1 << 15) | (0xf << 16) | (1 << 22) | (1 << 23)
+
+    ; Data segment
+    dd 0xffff  ; segment limit
+    dd (2 << 8) | (1 << 12) | (1 << 15) | (0xf << 16) | (1 << 22) | (1 << 23)
+
+
+GDT_end:
