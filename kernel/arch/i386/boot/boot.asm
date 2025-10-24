@@ -16,7 +16,9 @@ header_end:
 
 section .text
 global _start
+extern kinit
 _start:
+    call kinit
     extern kmain
     call kmain
     cli

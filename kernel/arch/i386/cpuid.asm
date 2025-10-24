@@ -5,6 +5,8 @@ global get_ebx
 global get_cr0
 extern tty_puts
 global check_long_mode
+global set_pae
+global get_cr4
 
 check_cpuid_availability:
     pushfd                               ;Save EFLAGS
@@ -52,3 +54,16 @@ check_long_mode:
     shr eax, 29
     and eax, 1
     ret
+
+set_pae:
+  mov eax, cr4
+  or eax, 0x10
+  mov cr4, eax
+  mov eax, cr4
+  shr eax, 4
+  and eax, 1
+  ret
+
+get_cr4:
+  mov eax, cr4
+  ret

@@ -8,7 +8,7 @@ LDFLAGS?=
 CC?=$(HOST)-gcc
 AS?=nasm
 
-CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra --sysroot=$(DESTDIR) -isystem=/include
+CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra --sysroot=$(DESTDIR) -isystem=/include -masm=intel
 ASFLAGS:=$(ASFLAGS)
 LDFLAGS:=$(LDFLAGS) -nostdlib -lgcc -lk --sysroot=$(DESTDIR)
 
@@ -21,7 +21,7 @@ LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 ASFLAGS:=$(ASFLAGS) $(KERNEL_ARCH_ASFLAGS)
 
 KERNEL_OBJS=$(KERNEL_ARCH_OBJS)
-OBJS=$(KERNEL_OBJS) kernel/main.o
+OBJS=$(KERNEL_OBJS) kernel/main.o kernel/kinit.o kernel/panic.o
 INCLUDE:=$(INCLUDE) $(KERNEL_ARCH_INCLUDE)
 LINK_LIST=$(OBJS)
 
