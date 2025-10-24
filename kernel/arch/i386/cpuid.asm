@@ -4,6 +4,7 @@ global cpuid_get_vendor
 global get_ebx
 global get_cr0
 extern tty_puts
+global check_long_mode
 
 check_cpuid_availability:
     pushfd                               ;Save EFLAGS
@@ -42,4 +43,12 @@ get_cr0:
 
 get_ebx:
     mov eax, ebx
+    ret
+
+check_long_mode:
+    mov eax, 0x80000001
+    cpuid
+    mov eax, edx
+    shr eax, 29
+    and eax, 1
     ret

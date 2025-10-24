@@ -4,15 +4,11 @@
 
 void kmain() {
     tty_init();
-    puts("[+] kmain()\n");
-    if (check_cpuid_availability()) {
-        puts("[+] CPUID is available\n");
-        char cpu_vendor[14];
-        cpuid_get_vendor((char*) cpu_vendor);
-        printf("CPU Vendor: %s\n", (char*) cpu_vendor);
+    if (check_cpuid_availability() && check_long_mode()) {
+      puts("[+] Compatible x86-64 CPU detected.\n");
     }
     else {
-        puts("[-] CPUID is not available\n");
+      puts("[PANIC] Incompatible CPU.\n");
+      return;
     }
-    printf("CR0: %X\n", get_cr0());
 }
