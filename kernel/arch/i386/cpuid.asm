@@ -7,6 +7,7 @@ extern tty_puts
 global check_long_mode
 global set_pae
 global get_cr4
+global set_lme
 
 check_cpuid_availability:
     pushfd                               ;Save EFLAGS
@@ -57,13 +58,20 @@ check_long_mode:
 
 set_pae:
   mov eax, cr4
-  or eax, 0x10
+  or eax, 0x20
   mov cr4, eax
   mov eax, cr4
-  shr eax, 4
+  shr eax, 5
   and eax, 1
   ret
 
 get_cr4:
   mov eax, cr4
+  ret
+
+set_lme:
+  mov ecx, 0xC0000080
+  rdmsr
+  or eax, 1 << 8
+  wrmsr
   ret

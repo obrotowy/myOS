@@ -17,11 +17,28 @@ header_end:
 section .text
 global _start
 extern kinit
+extern kmain
 _start:
-    call kinit
-    extern kmain
-    call kmain
     cli
+    call kinit
+    mov eax, PML4
+    mov cr3, eax
+    mov eax, cr0
+    or eax, 1 << 31
+    mov cr0, eax
+    call kmain
 .hang:  hlt
     jmp .hang
 
+align 4096
+PML4:
+  dq PDPT + 3
+  times 511 dq 0
+
+PDPT:
+  dq PDT + 3
+  times 511 dq 0
+
+PDT:
+  dq 3 | (1 << 7)
+  times 511 dq 0

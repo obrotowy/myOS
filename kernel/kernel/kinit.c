@@ -5,6 +5,7 @@
 
 void kinit() {
     tty_init();
+    
     if (check_cpuid_availability() && check_long_mode()) {
       puts("[+] Compatible x86-64 CPU detected.\n");
     }
@@ -19,4 +20,5 @@ void kinit() {
       puts("[PANIC] Can't enable PAE.\n");
       return;
     }
+    set_lme();
 }

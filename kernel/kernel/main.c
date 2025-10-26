@@ -5,10 +5,5 @@
 
 void kmain() {
     puts("[+] System fully loaded.\n");
-    while (1) {
-      uint8_t sc = get_scancode();
-      if (sc != 0) {
-        printf("%X\n", sc);
-      }
-    }
+    printf("CR0: %X\n", get_cr0());
 }

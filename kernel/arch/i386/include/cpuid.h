@@ -9,3 +9,4 @@ extern uint32_t get_ebx();
 extern bool check_long_mode();
 extern bool set_pae();
 extern uint32_t get_cr4();
+extern void set_lme();
