@@ -1,5 +1,5 @@
 HOST?=i686-elf
-ARCH?=i386
+ARCH?=amd64
 
 CFLAGS?=-g -pipe
 ASFLAGS?=
