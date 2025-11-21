@@ -5,9 +5,9 @@
 
 
 int putchar(int ch) {
-    #if defined(__is_libk)
-    tty_putchar(ch);
-    #endif
+  #if defined(__is_libk)
+  tty_putchar(ch);
+  #endif
 
-    return ch;
+  return ch;
 }
