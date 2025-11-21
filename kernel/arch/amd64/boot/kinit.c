@@ -2,6 +2,7 @@
 #include <kernel/panic.h>
 #include <cpuid.h>
 #include <stdio.h>
+#include <paging.h>
 
 void kinit() {
   tty_init();
@@ -21,4 +22,5 @@ void kinit() {
     return;
   }
   set_lme();
+  init_paging();
 }

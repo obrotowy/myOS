@@ -21,11 +21,6 @@ extern kmain
 _start:
   cli
   call kinit
-  mov eax, PML4
-  mov cr3, eax
-  mov eax, cr0
-  or eax, 1 << 31
-  mov cr0, eax
   call kmain
 .hang:  hlt
   jmp .hang
