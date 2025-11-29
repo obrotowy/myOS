@@ -22,5 +22,9 @@ void kinit() {
     return;
   }
   set_lme();
-  init_paging();
+  if (init_page_tables()) {
+    puts("[+] Paging enabled.\n");
+  } else {
+    panic("Failed to enable paging.");
+  }
 }
