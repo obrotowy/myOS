@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <paging.h>
 #include <gdt.h>
-
+#include <idt.h>
 void kinit() {
   tty_init();
   
@@ -25,10 +25,10 @@ void kinit() {
   set_lme();
   set_gdt_entries();
   set_gdtr();
+  set_idtr();
   if (init_page_tables()) {
     puts("[+] Paging enabled.\n");
   } else {
     panic("Failed to enable paging.");
   }
-
 }
