@@ -1,5 +1,5 @@
 HOST?=i686-elf
-ARCH?=i386
+ARCH?=amd64
 
 CFLAGS?=-g -pipe
 ASFLAGS?=
@@ -21,7 +21,7 @@ LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 ASFLAGS:=$(ASFLAGS) $(KERNEL_ARCH_ASFLAGS)
 
 KERNEL_OBJS=$(KERNEL_ARCH_OBJS)
-OBJS=$(KERNEL_OBJS) kernel/main.o kernel/kinit.o kernel/panic.o
+OBJS=$(KERNEL_OBJS) kernel/main.o kernel/panic.o
 INCLUDE:=$(INCLUDE) $(KERNEL_ARCH_INCLUDE)
 LINK_LIST=$(OBJS)
 

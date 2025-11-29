@@ -5,9 +5,9 @@ make install-headers
 cd ../kernel
 make install-headers
 cd ../libc
-make install
+make -j${nproc} install
 cd ../kernel
-make install
+make -j${nproc} install
 cd ..
 mkdir rootfs/boot/grub/
 cp grub.cfg rootfs/boot/grub/grub.cfg

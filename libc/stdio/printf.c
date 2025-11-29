@@ -7,53 +7,53 @@
 #include <stdint.h>
 
 int printf(const char* restrict format, ...) {
-    int written = 0;
-    size_t i = 0;
-    va_list args;
-    va_start(args, format);
-    while (format[i] != '\0') {
-        if (format[i] == '%') {
-            ++i;
-            switch (format[i]) {
-                case '%':
-                    putchar('%');
-                    ++written;
-                    break;
+  int written = 0;
+  size_t i = 0;
+  va_list args;
+  va_start(args, format);
+  while (format[i] != '\0') {
+    if (format[i] == '%') {
+      ++i;
+      switch (format[i]) {
+        case '%':
+          putchar('%');
+          ++written;
+          break;
 
-                case 'c':
-                    putchar((char) va_arg(args, int));
-                    ++written;
-                    break;
+        case 'c':
+          putchar((char) va_arg(args, int));
+          ++written;
+          break;
 
-                case 's':
-                    written += puts((const char*) va_arg(args, const char*));
-                    break;
-                case 'd':
-                case 'i': {
-                    char digits[33];
-                    itoa(va_arg(args, int), digits, 10);
-                    written += puts(digits);
-                    break;
-                }
-                case 'X': {
-                    char digits[9];
-                    uitoa(va_arg(args, uint32_t), digits, 16);
-                    written += printf("0x%s", digits);
-                    break;
-                }
-                default:
-                    putchar('%');
-                    putchar(format[i]);
-                    written += 2;
-                    break;
-            }
+        case 's':
+          written += puts((const char*) va_arg(args, const char*));
+          break;
+        case 'd':
+        case 'i': {
+          char digits[33];
+          itoa(va_arg(args, int), digits, 10);
+          written += puts(digits);
+          break;
         }
-        else {
-            putchar(format[i]);
-            ++written;
+        case 'X': {
+          char digits[9];
+          uitoa(va_arg(args, uint32_t), digits, 16);
+          written += printf("0x%s", digits);
+          break;
         }
-        ++i;
+        default:
+          putchar('%');
+          putchar(format[i]);
+          written += 2;
+          break;
+      }
     }
-    va_end(args);
-    return written;
+    else {
+      putchar(format[i]);
+      ++written;
+    }
+    ++i;
+  }
+  va_end(args);
+  return written;
 }
