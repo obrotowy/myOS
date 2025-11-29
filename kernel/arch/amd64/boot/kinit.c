@@ -3,6 +3,7 @@
 #include <cpuid.h>
 #include <stdio.h>
 #include <paging.h>
+#include <gdt.h>
 
 void kinit() {
   tty_init();
@@ -22,9 +23,12 @@ void kinit() {
     return;
   }
   set_lme();
+  set_gdt_entries();
+  set_gdtr();
   if (init_page_tables()) {
     puts("[+] Paging enabled.\n");
   } else {
     panic("Failed to enable paging.");
   }
+
 }
