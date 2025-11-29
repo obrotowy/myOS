@@ -6,11 +6,11 @@ uint64_t PDPT[512];
 uint64_t PDT[512];
 
 bool init_page_tables() {
-  PML4[0] = (uint64_t) &PDPT | 0x11;;
+  PML4[0] = (uint64_t) &PDPT | 0x3;
 
-  PDPT[0] = (uint64_t) &PDT | 0x11;
+  PDPT[0] = (uint64_t) &PDT | 0x3;
 
-  PDT[0] = 0x11 | (1 << 7);
+  PDT[0] = 0x3 | (1 << 7);
 
   asm(
     ".intel_syntax noprefix;"
