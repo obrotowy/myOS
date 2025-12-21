@@ -1,4 +1,4 @@
-HOST?=i686-elf
+HOST?=x86_64-elf
 ARCH?=i386
 
 CC?=$(HOST)-gcc

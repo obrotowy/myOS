@@ -1,4 +1,4 @@
-HOST?=i686-elf
+HOST?=x86_64-elf
 ARCH?=amd64
 
 CFLAGS?=-g -pipe
@@ -21,7 +21,7 @@ LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 ASFLAGS:=$(ASFLAGS) $(KERNEL_ARCH_ASFLAGS)
 
 KERNEL_OBJS=$(KERNEL_ARCH_OBJS)
-OBJS=$(KERNEL_OBJS) kernel/main.o kernel/panic.o
+OBJS=$(KERNEL_OBJS) kernel/main.o
 INCLUDE:=$(INCLUDE) $(KERNEL_ARCH_INCLUDE)
 LINK_LIST=$(OBJS)
 
@@ -30,6 +30,7 @@ LINK_LIST=$(OBJS)
 kernel.elf: $(OBJS) $(ARCHDIR)/linker.ld
 	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(LINK_LIST) $(LDFLAGS)
 
+boot32.o: $(KERNEL_ARCH_OBJS)
 .asm.o:
 	$(AS) $(ASFLAGS) $< -o $@ $(INCLUDE)
 

@@ -4,5 +4,4 @@
 
 void kmain() {
   puts("[+] System fully loaded.\n");
-  printf("CR0: %X\n", get_cr0());
 }
