@@ -1,48 +1,35 @@
-HOST?=i686-elf
-ARCH?=amd64
-
-CFLAGS?=-g -pipe
-ASFLAGS?=
-LDFLAGS?=
-
-CC?=$(HOST)-gcc
-AS?=nasm
-
 CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra --sysroot=$(DESTDIR) -isystem=/include -masm=intel
 ASFLAGS:=$(ASFLAGS)
-LDFLAGS:=$(LDFLAGS) -nostdlib -lgcc -lk --sysroot=$(DESTDIR)
+LDFLAGS:=$(LDFLAGS) -nostdlib --sysroot=$(DESTDIR)
+INCLUDE:=-Iinclude/
 
-ARCHDIR=arch/$(ARCH)
-INCLUDE=-Iinclude
-include $(ARCHDIR)/make.config
+BOOTSTRAP_OBJS=arch/x86/mem/paging.o arch/x86/boot/boot.o arch/x86/cpuid.o arch/x86/tty/tty.o arch/x86/boot/kinit.o arch/x86/gdt/gdt.o arch/x86/idt/idt.o
+BOOTSTRAP_INCLUDE=$(INCLUDE) -Iarch/x86/include/
 
-CFLAGS:=$(CFLAGS) $(KERNEL_ARCH_CFLAGS)
-LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
-ASFLAGS:=$(ASFLAGS) $(KERNEL_ARCH_ASFLAGS)
+KERNEL_OBJS=kernel/main.o arch/amd64/tty/tty.o
 
-KERNEL_OBJS=$(KERNEL_ARCH_OBJS)
-OBJS=$(KERNEL_OBJS) kernel/main.o kernel/panic.o
-INCLUDE:=$(INCLUDE) $(KERNEL_ARCH_INCLUDE)
-LINK_LIST=$(OBJS)
+kernel.elf: kernel64.o boot32.o linker.ld
+	x86_64-elf-gcc -T linker.ld kernel64.o boot32.o -o $@ $(LDFLAGS) -lk -lgcc
+kernel64.o: $(KERNEL_OBJS)
+	x86_64-elf-gcc $(KERNEL_OBJS) -o $@ $(INCLUDE) $(LDFLAGS) -lk -lgcc
 
-.SUFFIXES: .o .c .asm
+kernel/%.o: kernel/%.c
+	x86_64-elf-gcc -c $< -o $@ $(CFLAGS) $(INCLUDE)
 
-kernel.elf: $(OBJS) $(ARCHDIR)/linker.ld
-	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(LINK_LIST) $(LDFLAGS)
+boot32.o: $(BOOTSTRAP_OBJS)
+	i686-elf-gcc -o $@ $(BOOTSTRAP_OBJS) $(LDFLAGS)
 
-.asm.o:
-	$(AS) $(ASFLAGS) $< -o $@ $(INCLUDE)
+arch/amd64/%.o: arch/amd64/%.c
+	x86_64-elf-gcc -c $< -o $@ $(CFLAGS) $(INCLUDE)
 
-.c.o:
-	$(CC) -c $< -o $@ $(INCLUDE) $(CFLAGS)
+arch/x86/%.o: arch/x86/%.c
+	i686-elf-gcc -c $< -o $@ $(CFLAGS) $(BOOTSTRAP_INCLUDE)
+
+arch/x86/%.o: arch/x86/%.asm
+	nasm -felf32 $< -o $@ $(ASFLAGS) -Iinclude/
 
 clean:
-	rm $(OBJS) kernel.elf
-
-install: kernel.elf install-headers
-	mkdir -p $(DESTDIR)/boot
-	cp kernel.elf $(DESTDIR)/boot/kernel.elf
+	rm $(KERNEL_OBJS) $(BOOTSTRAP_OBJS)
 
 install-headers:
-	mkdir -p $(DESTDIR)/include
 	cp -r include/* $(DESTDIR)/include
