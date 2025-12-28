@@ -19,9 +19,5 @@ void kinit() {
   set_gdt_entries();
   set_gdtr();
   //set_idtr();
-  //if (init_page_tables()) {
-  //  puts("[+] Paging enabled.\n");
-  //} else {
-  //  panic("Failed to enable paging.");
-  //}
+  init_page_tables();
 }

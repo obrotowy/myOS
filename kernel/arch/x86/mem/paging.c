@@ -1,18 +1,22 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-uint64_t PML4[512];
-uint64_t PDPT[512];
-uint64_t PDT[512];
+uint32_t PD[1024] __attribute__((aligned(4096)));;
+uint32_t PT[1024] __attribute__((aligned(4096)));;
+
 
 bool init_page_tables() {
-  PML4[0] = (uint64_t) &PDPT | 0x3;
+  // Identity map 2MB
+  for (int i = 0; i<=0x200; ++i) {
+    PT[i] = (i << 12) | 3;
+  }
+  PD[0] = ((uint32_t)PT & 0xFFFFF000) | 3;
+  for (int i = 1; i<1024; ++i) {
+    PD[i] = 0;
+  }
 
-  PDPT[0] = (uint64_t) &PDT | 0x3;
-
-  PDT[0] = 0x3 | (1 << 7);
-
-  asm(
+  
+  asm volatile(
     ".intel_syntax noprefix;"
     "mov eax, %0;"
     "mov cr3, eax;"
@@ -20,9 +24,10 @@ bool init_page_tables() {
     "or eax, 0x80000000;"
     "mov cr0, eax;"
     :
-    : "r"(PDPT)
-    : "eax"
+    : "r"(PD)
+    : "eax", "memory"
   );
+  
 
   uint32_t cr0;
   asm("mov eax, cr0;" : "=r"(cr0));
