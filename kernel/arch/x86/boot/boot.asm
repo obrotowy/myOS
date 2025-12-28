@@ -26,14 +26,3 @@ _start:
   jmp .hang
 
 align 4096
-PML4:
-  dq PDPT + 3
-  times 511 dq 0
-
-PDPT:
-  dq PDT + 3
-  times 511 dq 0
-
-PDT:
-  dq 3 | (1 << 7)
-  times 511 dq 0
