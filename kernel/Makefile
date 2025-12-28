@@ -1,5 +1,5 @@
 HOST?=i686-elf
-ARCH?=amd64
+ARCH?=x86
 
 CFLAGS?=-g -pipe
 ASFLAGS?=
@@ -8,7 +8,7 @@ LDFLAGS?=
 CC?=$(HOST)-gcc
 AS?=nasm
 
-CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra --sysroot=$(DESTDIR) -isystem=/include -masm=intel
+CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra -O0 -g --sysroot=$(DESTDIR) -isystem=/include -masm=intel
 ASFLAGS:=$(ASFLAGS)
 LDFLAGS:=$(LDFLAGS) -nostdlib -lgcc -lk --sysroot=$(DESTDIR)
 
@@ -21,7 +21,7 @@ LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 ASFLAGS:=$(ASFLAGS) $(KERNEL_ARCH_ASFLAGS)
 
 KERNEL_OBJS=$(KERNEL_ARCH_OBJS)
-OBJS=$(KERNEL_OBJS) kernel/main.o kernel/panic.o
+OBJS=$(KERNEL_OBJS)
 INCLUDE:=$(INCLUDE) $(KERNEL_ARCH_INCLUDE)
 LINK_LIST=$(OBJS)
 
