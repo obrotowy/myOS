@@ -23,6 +23,15 @@ _start:
   mov esp, stack_top
   mov ebp, esp
   call kinit
+  jmp 0x8:reload_segment_registers
+  reload_segment_registers:
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
   call kmain
 .hang:  hlt
   jmp .hang
