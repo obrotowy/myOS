@@ -11,6 +11,7 @@ isr_stub_%+%1:
 
 extern exception_handler
 extern timer_handler
+extern kb_handler
 isr_no_err_stub 0
 isr_no_err_stub 1
 isr_no_err_stub 2
@@ -46,7 +47,9 @@ isr_no_err_stub 31
 
 global isr_stub_table
 global isr_timer
+global isr_kb
 extern PIC_sendEOI
+
 isr_stub_table:
 %assign i 0 
 %rep    32 
@@ -58,6 +61,15 @@ isr_timer:
   pushf
   call timer_handler
   push 0
+  call PIC_sendEOI
+  add esp, 4
+  popf
+  iret
+
+isr_kb:
+  pushf
+  call kb_handler
+  push 1
   call PIC_sendEOI
   add esp, 4
   popf

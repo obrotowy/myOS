@@ -13,7 +13,7 @@ void kinit() {
   // Disable IRQs since we need to program PIC first to IRQ not overlap with CPU Exceptions
   
   PIC_remap(0x20, 0x28);
-  outb(0x21, 0xFE); // Mask everytihg except Timer IRQ
+  outb(0x21, 0xFC); // Mask everytihg except Timer IRQ
   outb(0xA1, 0xFF);
   if (check_cpuid_availability()) {
     puts("[+] CPUID Available.\n");
