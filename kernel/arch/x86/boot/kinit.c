@@ -5,10 +5,14 @@
 #include <paging.h>
 #include <gdt.h>
 #include <idt.h>
+#include <port.h>
 
 void kinit() {
   tty_init();
+  // Disable IRQs since we need to program PIC first to IRQ not overlap with CPU Exceptions
   
+  outb(0x21, 0xFF);
+  outb(0xA1, 0xFF);
   if (check_cpuid_availability()) {
     puts("[+] CPUID Available.\n");
   }
@@ -18,6 +22,7 @@ void kinit() {
   }
   set_gdt_entries();
   set_gdtr();
-  //set_idtr();
+  init_idt();
+  set_idtr();
   init_page_tables();
 }

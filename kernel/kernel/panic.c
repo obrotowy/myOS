@@ -3,5 +3,5 @@
 
 void panic(const char* msg) {
   printf("[PANIC] %s", msg);
-  for (;;);
+  __asm__ volatile ("cli; hlt");
 }

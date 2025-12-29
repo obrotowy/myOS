@@ -32,12 +32,13 @@ _start:
     mov fs, ax
     mov gs, ax
     mov ss, ax
+  sti
   call kmain
 .hang:  hlt
   jmp .hang
 
 section .bss
-align 4096
+  align 4096
   stack_bottom:
     resb 4096
   stack_top:

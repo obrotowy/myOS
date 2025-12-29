@@ -1,9 +1,10 @@
 #include <idt.h>
 
-IDT_Entry IDT[256];
-
+extern void exception_handler();
+IDT_Entry IDT[256] __attribute__((aligned(4096)));
+extern void* isr_stub_table[];
 void set_idtr() {
-  IDTR idtr = {.size = 256 * 8 - 1, .offset = (uint64_t*)IDT};
+  IDTR idtr = {.size = 256 * 8 - 1, .offset = (uint32_t*)IDT};
   asm(
     ".intel_syntax noprefix;"
     "lidt [%0]"
@@ -11,4 +12,16 @@ void set_idtr() {
     : "r"(&idtr)
     : "eax"
   );
+}
+
+void init_idt() {
+  for (int i = 0; i<32; ++i) {
+    IDT[i] = (IDT_Entry) {
+      .isr_addr_low = (uint32_t)isr_stub_table[i] & 0xFFFF,
+      .segment = 0x08,
+      .reserved = 0,
+      .attrs = 0x8E,
+      .isr_addr_high = (uint32_t)isr_stub_table[i] >> 16
+    };
+  }
 }
