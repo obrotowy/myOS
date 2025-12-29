@@ -6,12 +6,14 @@
 #include <gdt.h>
 #include <idt.h>
 #include <port.h>
+#include <pic.h>
 
 void kinit() {
   tty_init();
   // Disable IRQs since we need to program PIC first to IRQ not overlap with CPU Exceptions
   
-  outb(0x21, 0xFF);
+  PIC_remap(0x20, 0x28);
+  outb(0x21, 0xFE); // Mask everytihg except Timer IRQ
   outb(0xA1, 0xFF);
   if (check_cpuid_availability()) {
     puts("[+] CPUID Available.\n");

@@ -10,6 +10,7 @@ isr_stub_%+%1:
 %endmacro
 
 extern exception_handler
+extern timer_handler
 isr_no_err_stub 0
 isr_no_err_stub 1
 isr_no_err_stub 2
@@ -44,9 +45,20 @@ isr_err_stub    30
 isr_no_err_stub 31
 
 global isr_stub_table
+global isr_timer
+extern PIC_sendEOI
 isr_stub_table:
 %assign i 0 
 %rep    32 
     dd isr_stub_%+i ; use DQ instead if targeting 64-bit
 %assign i i+1 
 %endrep
+
+isr_timer:
+  pushf
+  call timer_handler
+  push 0
+  call PIC_sendEOI
+  add esp, 4
+  popf
+  iret

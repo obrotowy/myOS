@@ -60,3 +60,7 @@ static inline uint16_t ind(uint16_t port) {
   );
   return ret;
 }
+
+static inline uint16_t io_wait() {
+  outb(0x80, 0);
+}
