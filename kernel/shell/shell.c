@@ -15,6 +15,5 @@ void shell_exec(const char* cmd) {
 }
 
 void uptime() {
-  uint64_t seconds = ticks / (uint64_t) 18;
-  printf("Uptime: %d ticks, %d seconds\n", ticks, seconds);
+  printf("Uptime: %d ticks, %d seconds\n", (int) ticks, (int)ticks/18);
 }
