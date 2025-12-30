@@ -4,6 +4,6 @@
 #include <ps2.h>
 
 void kmain() {
-  puts("[+] System fully loaded.\n");
-  printf("CR0: %X\n", get_cr0());
+  puts("OS fully loaded\n");
+  puts("> ");
 }

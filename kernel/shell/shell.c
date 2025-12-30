@@ -21,6 +21,7 @@ void shell_exec(const char* cmd) {
   }
   else
     printf("Unrecognized command: %s\n", cmd);
+  puts("> ");
 }
 
 void uptime() {
