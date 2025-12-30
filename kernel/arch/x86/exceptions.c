@@ -14,7 +14,3 @@ void exception_handler() {
 void timer_handler(void) {
   ++ticks;
 }
-
-void kb_handler(void) {
-  printf("%X ", ps2_read_data());
-}
