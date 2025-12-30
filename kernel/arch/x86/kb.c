@@ -1,6 +1,9 @@
 #include <ps2.h>
 #include <kernel/tty.h>
 #include <stdio.h>
+#include <string.h>
+#include <shell/shell.h>
+
 const char kb_map[] = {
   0, 27, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 8,
   '\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n',
@@ -24,6 +27,12 @@ void kb_handler(void) {
     else {
       kb_buf[kb_buf_idx++] = kb_map[scancode];
       putchar(mapped);
+      if (mapped == '\n') {
+        kb_buf[kb_buf_idx-1] = 0;
+        shell_exec(kb_buf);
+        kb_buf_idx = 0;
+        memset(kb_buf, 0, 255);
+      }
     }
   }
 }

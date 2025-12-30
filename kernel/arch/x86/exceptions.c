@@ -3,7 +3,7 @@
 #include <ps2.h>
 
 
-static uint64_t ticks = 0;
+uint64_t ticks = 0;
 
 __attribute__((noreturn))
 void exception_handler(void);
