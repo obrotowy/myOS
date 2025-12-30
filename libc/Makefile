@@ -37,6 +37,7 @@ string/memmove.o \
 string/memcpy.o \
 string/memset.o \
 string/memcmp.o \
+string/strcmp.o \
 stdio/putchar.o \
 stdio/puts.o \
 stdio/printf.o \
