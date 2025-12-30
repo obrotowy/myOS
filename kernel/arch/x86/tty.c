@@ -43,21 +43,23 @@ void tty_puts(const char* s) {
   }
 }
 
-void tty_clear() {
-  for (size_t i = 0; i<VGA_WIDTH * VGA_HEIGHT; ++i) {
-    vga_buffer[i] = vga_entry(0, tty_color);
-  }
-}
-
-void tty_setpos_rel(int dx, int dy) {
-  tty_x += dx;
-  tty_y += dy;
-}
-
 void tty_setx(unsigned int x) {
   tty_x = x;
 }
 
 void tty_sety(unsigned int y) {
   tty_y = y;
+}
+
+void tty_clear() {
+  for (size_t i = 0; i<VGA_WIDTH * VGA_HEIGHT; ++i) {
+    vga_buffer[i] = vga_entry(0, tty_color);
+  }
+  tty_setx(0);
+  tty_sety(0);
+}
+
+void tty_setpos_rel(int dx, int dy) {
+  tty_x += dx;
+  tty_y += dy;
 }
