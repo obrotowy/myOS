@@ -38,7 +38,7 @@ int printf(const char* restrict format, ...) {
         case 'X': {
           char digits[9];
           uitoa(va_arg(args, uint32_t), digits, 16);
-          written += printf("0x%s", digits);
+          written += printf("%s", digits);
           break;
         }
         default:
