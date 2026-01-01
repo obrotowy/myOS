@@ -22,6 +22,8 @@ _start:
   cli
   mov esp, stack_top
   mov ebp, esp
+  push ebx
+  push eax
   call kinit
   jmp 0x8:reload_segment_registers
   reload_segment_registers:

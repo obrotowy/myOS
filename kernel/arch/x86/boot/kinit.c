@@ -1,3 +1,4 @@
+#include <boot/multiboot2.h>
 #include <kernel/tty.h>
 #include <kernel/panic.h>
 #include <stdio.h>
@@ -6,8 +7,15 @@
 #include <idt.h>
 #include <port.h>
 #include <pic.h>
+#include <stddef.h>
 
-void kinit() {
+struct multiboot_header_tag* multiboot_tag = NULL;
+
+void kinit(uint32_t magic, struct multiboot_header_tag* struct_addr) {
+  if (magic != MULTIBOOT2_BOOTLOADER_MAGIC)
+    printf("[!] OS was loaded using unsupported bootloader. Use carefully.\n");
+  else
+    multiboot_tag = struct_addr;
   tty_init();
   // Disable IRQs since we need to program PIC first to IRQ not overlap with CPU Exceptions
   

@@ -21,7 +21,7 @@ LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 ASFLAGS:=$(ASFLAGS) $(KERNEL_ARCH_ASFLAGS)
 
 KERNEL_OBJS=$(KERNEL_ARCH_OBJS)
-OBJS=$(KERNEL_OBJS) kernel/main.o kernel/panic.o shell/shell.o
+OBJS=$(KERNEL_OBJS) kernel/main.o kernel/panic.o kernel/multiboot.o shell/shell.o
 INCLUDE:=$(INCLUDE) $(KERNEL_ARCH_INCLUDE)
 LINK_LIST=$(OBJS)
 
