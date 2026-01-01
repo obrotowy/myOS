@@ -6,7 +6,8 @@
 #include <power.h>
 
 extern uint64_t ticks;
-
+extern uint64_t get_available_memory();
+extern void parse_multiboot_struct();
 void uptime();
 
 void shell_exec(const char* cmd) {
@@ -19,6 +20,10 @@ void shell_exec(const char* cmd) {
   }
   else if (strcmp(cmd, "reboot") == 0)
     reboot();
+  else if (strcmp(cmd, "mbinfo") == 0)
+    parse_multiboot_struct();
+  else if (strcmp(cmd, "meminfo") == 0)
+    printf("Available memory: %d MB\n", (int) get_available_memory() >> 20);
   else
     printf("Unrecognized command: %s\n", cmd);
   puts("> ");
