@@ -1,6 +1,5 @@
 #include <kernel/tty.h>
 #include <kernel/panic.h>
-#include <cpuid.h>
 #include <stdio.h>
 #include <paging.h>
 #include <gdt.h>
@@ -15,13 +14,6 @@ void kinit() {
   PIC_remap(0x20, 0x28);
   outb(0x21, 0xFC); // Mask everytihg except Timer IRQ
   outb(0xA1, 0xFF);
-  if (check_cpuid_availability()) {
-    puts("[+] CPUID Available.\n");
-  }
-  else {
-    panic("Incompatible CPU.\n");
-    return;
-  }
   set_gdt_entries();
   set_gdtr();
   init_idt();
