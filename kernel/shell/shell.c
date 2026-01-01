@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <kernel/tty.h>
+#include <power.h>
 
 extern uint64_t ticks;
 
@@ -16,6 +17,8 @@ void shell_exec(const char* cmd) {
   else if (strcmp(cmd, "lscpu") == 0) {
     lscpu();
   }
+  else if (strcmp(cmd, "reboot") == 0)
+    reboot();
   else
     printf("Unrecognized command: %s\n", cmd);
   puts("> ");
