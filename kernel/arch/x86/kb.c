@@ -18,7 +18,7 @@ void kb_handler(void) {
   uint8_t scancode = ps2_read_data();
   const char mapped = kb_map[scancode];
   if (kb_buf_idx < 255 && scancode <= 0x3B) {
-    if (mapped == 8) {
+    if (mapped == 8 && kb_buf_idx > 0) {
       kb_buf[--kb_buf_idx] = 0;
       tty_setpos_rel(-1, 0);
       putchar(' ');
