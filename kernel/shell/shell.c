@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <kernel/tty.h>
 #include <power.h>
+#include <beeper.h>
 
 extern uint64_t ticks;
 extern uint64_t get_available_memory();
@@ -24,6 +25,9 @@ void shell_exec(const char* cmd) {
     parse_multiboot_struct();
   else if (strcmp(cmd, "meminfo") == 0)
     printf("Available memory: %d MB\n", (int) get_available_memory() >> 20);
+  else if (strcmp(cmd, "beep") == 0) {
+    beep();
+  }
   else
     printf("Unrecognized command: %s\n", cmd);
   puts("> ");
