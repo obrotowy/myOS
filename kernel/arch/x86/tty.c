@@ -37,10 +37,7 @@ void tty_putchar(char c) {
     tty_y = 0;
   }
   uint16_t pos = tty_x + tty_y * VGA_WIDTH;
-  outb(0x3D4, 0x0F);
-  outb(0x3D5, (uint8_t) (pos & 0xFF));
-  outb(0x3D4, 0x0E);
-  outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+  vga_set_cursor_position(pos);
 }
 
 void tty_puts(const char* s) {
@@ -61,10 +58,7 @@ void tty_setx(unsigned int x) {
 void tty_sety(unsigned int y) {
   tty_y = y;
   uint16_t pos = tty_x + tty_y * VGA_WIDTH;
-  outb(0x3D4, 0x0F);
-  outb(0x3D5, (uint8_t) (pos & 0xFF));
-  outb(0x3D4, 0x0E);
-  outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+  vga_set_cursor_position(pos);
 }
 
 void tty_clear() {
@@ -79,8 +73,5 @@ void tty_setpos_rel(int dx, int dy) {
   tty_x += dx;
   tty_y += dy;
   uint16_t pos = tty_x + tty_y * VGA_WIDTH;
-  outb(0x3D4, 0x0F);
-  outb(0x3D5, (uint8_t) (pos & 0xFF));
-  outb(0x3D4, 0x0E);
-  outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+  vga_set_cursor_position(pos);
 }

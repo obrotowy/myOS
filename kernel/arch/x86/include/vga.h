@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <port.h>
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
@@ -31,4 +32,11 @@ static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) {
 
 static inline uint16_t vga_entry(unsigned char uc, uint8_t color) {
 	return (uint16_t) uc | (uint16_t) color << 8;
+}
+
+static inline void vga_set_cursor_position(uint16_t pos) {
+  outb(0x3D4, 0x0F);
+  outb(0x3D5, (uint8_t) (pos & 0xFF));
+  outb(0x3D4, 0x0E);
+  outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
