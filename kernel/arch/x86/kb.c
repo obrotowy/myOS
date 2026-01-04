@@ -1,4 +1,4 @@
-#include <ps2.h>
+#include <x86/ps2.h>
 #include <kernel/tty.h>
 #include <stdio.h>
 #include <string.h>

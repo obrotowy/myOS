@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <kernel/tty.h>
-#include <power.h>
+#include <kernel/power.h>
 
 extern uint64_t ticks;
 extern uint64_t get_available_memory();

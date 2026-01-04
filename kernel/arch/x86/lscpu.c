@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <lscpu.h>
+#include <x86/lscpu.h>
 
 uint32_t get_vendor_id(char* buf) {
   uint32_t max_level = 0;

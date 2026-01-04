@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <port.h>
+#include <x86/port.h>
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25

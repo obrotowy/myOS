@@ -1,8 +1,7 @@
 #include <kernel/tty.h>
-#include <vga.h>
+#include <x86/vga.h>
 #include <stdint.h>
 #include <stddef.h>
-#include <port.h>
 
 static uint16_t* vga_buffer;
 static uint8_t tty_x;
@@ -49,10 +48,7 @@ void tty_puts(const char* s) {
 void tty_setx(unsigned int x) {
   tty_x = x;
   uint16_t pos = tty_x + tty_y * VGA_WIDTH;
-  outb(0x3D4, 0x0F);
-  outb(0x3D5, (uint8_t) (pos & 0xFF));
-  outb(0x3D4, 0x0E);
-  outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+  vga_set_cursor_position(pos);
 }
 
 void tty_sety(unsigned int y) {

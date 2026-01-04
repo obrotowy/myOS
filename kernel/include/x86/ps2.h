@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include <port.h>
+#include <x86/port.h>
 #include <stdio.h>
 
 #define PS2_STATUS_PORT 0x64

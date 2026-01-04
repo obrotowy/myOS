@@ -1,4 +1,4 @@
-#include <idt.h>
+#include <x86/idt.h>
 
 
 IDT_Entry IDT[256] __attribute__((aligned(4096)));

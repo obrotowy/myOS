@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <gdt.h>
+#include <x86/gdt.h>
 uint64_t GDT[3];
 
 void set_gdt_entries() {

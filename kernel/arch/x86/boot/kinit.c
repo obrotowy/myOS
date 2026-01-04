@@ -2,11 +2,11 @@
 #include <kernel/tty.h>
 #include <kernel/panic.h>
 #include <stdio.h>
-#include <paging.h>
-#include <gdt.h>
-#include <idt.h>
-#include <port.h>
-#include <pic.h>
+#include <x86/paging.h>
+#include <x86/gdt.h>
+#include <x86/idt.h>
+#include <x86/port.h>
+#include <x86/pic.h>
 #include <stddef.h>
 
 struct multiboot_header_tag* multiboot_tag = NULL;

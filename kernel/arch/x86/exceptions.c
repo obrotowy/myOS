@@ -1,6 +1,6 @@
 #include <kernel/panic.h>
 #include <stdio.h>
-#include <ps2.h>
+#include <x86/ps2.h>
 
 
 uint64_t ticks = 0;

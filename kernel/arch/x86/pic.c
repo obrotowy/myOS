@@ -1,5 +1,5 @@
-#include <pic.h>
-#include <port.h>
+#include <x86/pic.h>
+#include <x86/port.h>
 
 void PIC_sendEOI(uint8_t irq) {
   if (irq >= 8)
