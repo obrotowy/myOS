@@ -1,7 +1,7 @@
 #include <string.h>
 
 int strcmp(const char* lhs, const char* rhs) {
-  int count = strlen(lhs);
+  size_t count = strlen(lhs);
   if (strlen(rhs) != count)
     return -1;
   int diff;

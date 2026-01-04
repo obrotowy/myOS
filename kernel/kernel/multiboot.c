@@ -27,7 +27,6 @@ uint64_t get_available_memory() {
 void parse_multiboot_struct() {
   uint64_t addr = (uint64_t)multiboot_tag;
   struct multiboot_tag *tag;
-  unsigned size;
   for (tag = (struct multiboot_tag *) (addr + 8);
        tag->type != MULTIBOOT_TAG_TYPE_END;
        tag = (struct multiboot_tag *) ((multiboot_uint8_t *) tag 
