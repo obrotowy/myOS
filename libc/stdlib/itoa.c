@@ -29,6 +29,8 @@ char* itoa(int value, char* str, const int base) {
   else {
     int digit = 0;
     bool is_negative = (value < 0);
+    if (is_negative)
+      value = -value;
     while (value != 0) {
       int current_digit = value % base;
       char current_char;

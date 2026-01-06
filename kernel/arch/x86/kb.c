@@ -36,3 +36,12 @@ void kb_handler(void) {
     }
   }
 }
+
+void kb_init() {
+  uint8_t response;
+  do {
+    ps2_send_data(0xF0);
+    ps2_send_data(0x01);
+    response = ps2_read_data();
+  } while (response != PS2_DEVICE_ACK);
+}

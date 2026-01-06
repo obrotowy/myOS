@@ -5,6 +5,7 @@ IDT_Entry IDT[256] __attribute__((aligned(4096)));
 extern void* isr_stub_table[];
 extern void* isr_timer;
 extern void* isr_kb;
+extern void* isr_mouse;
 void set_idtr() {
   IDTR idtr = {.size = 256 * 8 - 1, .offset = (uint32_t*)IDT};
   asm(
@@ -39,5 +40,12 @@ void init_idt() {
     .reserved = 0,
     .attrs = 0x8E,
     .isr_addr_high = (uint32_t)&isr_kb >> 16
+  };
+  IDT[44] = (IDT_Entry) {
+    .isr_addr_low = (uint32_t)&isr_mouse & 0xFFFF,
+    .segment = 0x08,
+    .reserved = 0,
+    .attrs = 0x8E,
+    .isr_addr_high = (uint32_t)&isr_mouse >> 16
   };
 }

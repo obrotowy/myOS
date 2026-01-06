@@ -71,3 +71,10 @@ void tty_setpos_rel(int dx, int dy) {
   uint16_t pos = tty_x + tty_y * VGA_WIDTH;
   vga_set_cursor_position(pos);
 }
+
+void tty_setcolor(unsigned int x, unsigned int y, uint16_t color) {
+  uint16_t entry = vga_buffer[x + VGA_WIDTH * y];
+  entry &= 0x00FF;
+  entry |= (color << 8);
+  vga_buffer[x + VGA_WIDTH * y] = entry;
+}
