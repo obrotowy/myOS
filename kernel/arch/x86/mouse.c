@@ -20,8 +20,6 @@ void mouse_init() {
 }
 
 void mouse_handler() {
-  if (!(ps2_read_status() & 0x20))
-    return;
   uint8_t flags;
   do {
     flags = ps2_read_data();
@@ -32,6 +30,10 @@ void mouse_handler() {
   if (flags & 0b11000000) // Check for X or Y overflow
     return;
 
+  if (flags & 1)
+    puts("[mouse] Left button clicked.\n");
+  if (flags & 2)
+    puts("[mouse] Right button clicked.\n");
   if (!(flags & 0x20))   // Negative Y
     dy |= 0xFF00;
   if (flags & 0x10)   // Negative X
@@ -40,4 +42,5 @@ void mouse_handler() {
   x += (dx % 2);
   y += (dy % 2);
   tty_setcolor(x, y, vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_LIGHT_BLUE));
+  ps2_flush_buffer();
 }

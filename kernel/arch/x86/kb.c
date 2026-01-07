@@ -35,6 +35,7 @@ void kb_handler(void) {
       }
     }
   }
+  ps2_flush_buffer();
 }
 
 void kb_init() {

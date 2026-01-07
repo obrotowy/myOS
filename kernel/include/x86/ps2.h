@@ -64,4 +64,9 @@ static inline void ps2_wait_for_ack() {
   do {} while(ps2_read_data() != PS2_DEVICE_ACK);
 }
 
+static inline void ps2_flush_buffer() {
+  while (ps2_read_status() & PS2_OUTPUT_BUFFER_STATUS_BIT)
+    ps2_read_data();
+}
+
 void ps2_init();
